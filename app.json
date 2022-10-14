@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "api-Mybank",
+    "slug": "api-Mybank",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "api-Mybank"
+}
