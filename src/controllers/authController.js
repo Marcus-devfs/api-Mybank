@@ -1,25 +1,15 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const User = require('../models/User')
-const app = express()
+
 const express = require('express')
-app.use(express.json())
+
+
+// const app = express()
+// app.use(express.json())
 
 
 class authController {
-
-    doCheckId = async (req, res) => {
-
-        const id = req.params.id
-        //check user
-
-        const user = await User.findById(id, `-password`)
-
-        if (!user) {
-            return res.status(404).json({ msg: 'Usuario não encontrado' })
-        }
-        return res.status(200).json({ user })
-    }
 
     doLogin = async (req, res) => {
 
@@ -94,7 +84,18 @@ class authController {
 
     }
 
+    doCheckId = async (req, res) => {
 
+        const id = req.params.id
+        //check user
+
+        const user = await User.findById(id, `-password`)
+
+        if (!user) {
+            return res.status(404).json({ msg: 'Usuario não encontrado' })
+        }
+        return res.status(200).json({ user })
+    }
 }
 
 module.exports = new authController()

@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken')
 
-const checkToken = (req, res, next) => {
+function checkToken(req, res, next) {
 
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(" ")[1]
+    const authHeader = req.headers.authorization['authorization']
+    const token = authHeader && authHeader.split('')[1]
 
     if (!token) {
         return res.status(401).json({ msg: 'Acesso negado!' })
@@ -18,11 +18,10 @@ const checkToken = (req, res, next) => {
     } catch (error) {
         console.log(error)
 
-        return res.status(400).json({ msg: 'Token inválido!' })
+        res.status(400).json({ msg: 'Token inválido!' })
     }
 
 }
 
-module.exports = {
-    checkToken
-}
+module.exports = checkToken
+
