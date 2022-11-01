@@ -28,23 +28,38 @@ class authController {
         //check password
         const checkPassword = await bcrypt.compare(password, user.password)
 
-        if (!checkPassword) { return res.status(404).json({ msg: 'Senha inválida!' }) }
+        if (!checkPassword) { return res.status(400).json({ success: false, msg: 'Senha inválida!' }) }
 
         try {
             const secret = process.env.SECRET
-            const token = jwt.sign({
-                id: user._id,
+            const jwtToken = jwt.sign({
+                userId: user._id,
             },
                 secret,
             )
-            return res.status(200).json({ msg: 'Autenticação realizada com sucesso', token })
+            return res.status(200, { user, success: true, token: jwtToken })
 
         } catch (error) {
             console.log(error)
 
-            return res.status(500).json({ msg: 'ocorreu um erro' })
+            return res.status(401, { success: false, msg: 'Invalid credentials' })
         }
 
+    }
+
+    doLoginByToken = async (req, res) => {
+
+        const { userId } = req.currentUser
+        const user = await User.findOne({ _id: userId })
+
+        const secret = process.env.SECRET
+        const jwtToken = jwt.sign({
+            userId,
+        },
+            secret,
+        )
+
+        return res.send(200, { user, token: jwtToken })
     }
 
     doRegister = async (req, res) => {
@@ -71,6 +86,7 @@ class authController {
             name,
             email,
             password: passwordHash,
+
         })
 
         try {
@@ -96,9 +112,9 @@ class authController {
             return res.status(404).json({ msg: 'Usuario não encontrado' })
         }
         return res.status(200).json({ user })
-        
+
     }
-    
+
 }
 
 module.exports = new authController()

@@ -1,6 +1,6 @@
 require('dotenv').config()
 const authController = require('../src/controllers/authController')
-const checkToken = require('./validators/auth')
+const {checkToken} = require('./validators/auth')
 const express = require('express')
 const mongoose = require('mongoose')
 
@@ -11,7 +11,7 @@ const app = express()
 app.use(express.json())
 app.post('/auth/login',authController.doLogin)
 app.post('/auth/register', authController.doRegister)
-app.get("/user/:id", checkToken, authController.doCheckToken)
+app.post('/auth/login/token', checkToken, authController.doLoginByToken)
 
 const dbUser = process.env.DB_USER
 const dbPassword = process.env.DB_PASS
