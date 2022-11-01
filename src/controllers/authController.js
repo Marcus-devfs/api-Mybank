@@ -11,40 +11,68 @@ const express = require('express')
 
 class authController {
 
+    // doLogin = async (req, res) => {
+
+    //     //desconstruir do body da API
+    //     const { email, password } = req.body
+
+    //     //validation
+    //     if (!email) { return res.status(422).json({ msg: 'O email é obrigatório!' }) }
+    //     if (!password) { return res.status(422).json({ msg: 'A password é obrigatória!' }) }
+
+    //     //check user exists
+    //     const user = await User.findOne({ email: email })
+
+    //     if (!user) { return res.status(404).json({ msg: 'Usuario não encontrado' }) }
+
+    //     //check password
+    //     const checkPassword = await bcrypt.compare(password, user.password)
+
+    //     if (!checkPassword) { return res.status(400).json({ success: false, msg: 'Senha inválida!' }) }
+
+    //     try {
+    //         const secret = process.env.SECRET
+    //         const jwtToken = jwt.sign({
+    //             userId: user._id,
+    //         },
+    //             secret,
+    //         )
+    //         return res.status(200, { user, success: true, token: jwtToken })
+
+    //     } catch (error) {
+    //         console.log(error)
+
+    //         return res.status(401, { success: false, msg: 'Invalid credentials' })
+    //     }
+
+    // }
+
     doLogin = async (req, res) => {
 
-        //desconstruir do body da API
         const { email, password } = req.body
 
-        //validation
-        if (!email) { return res.status(422).json({ msg: 'O email é obrigatório!' }) }
-        if (!password) { return res.status(422).json({ msg: 'A password é obrigatória!' }) }
+        if (!password) return res.status(400).json(400, { success: false, msg: 'Invalid password data' })
+        if (!email) return res.status(400).json(400, { success: false, msg: 'Invalid e-mail data' })
 
-        //check user exists
-        const user = await User.findOne({ email: email })
+        const user = await User.findOne({ email }).select('+password')
 
-        if (!user) { return res.status(404).json({ msg: 'Usuario não encontrado' }) }
+        if (!user) return res.status(401).json(401, { success: false, msg: 'Invalid credentials' })
+        if (!user.password) return res.status(400).json(400, { success: false, msg: 'User access is not allowed' })
 
-        //check password
-        const checkPassword = await bcrypt.compare(password, user.password)
+        const result = await bcrypt.compare(password, user.password)
 
-        if (!checkPassword) { return res.status(400).json({ success: false, msg: 'Senha inválida!' }) }
+        if (!result) return res.status401().json(401, { success: false, msg: 'Invalid credentials' })
 
-        try {
-            const secret = process.env.SECRET
-            const jwtToken = jwt.sign({
+        const jwtToken = jwt.sign(
+            {
                 userId: user._id,
             },
-                secret,
-            )
-            return res.status(200, { user, success: true, token: jwtToken })
+            process.env.SECRET
+        )
 
-        } catch (error) {
-            console.log(error)
+        user.password = undefined
 
-            return res.status(401, { success: false, msg: 'Invalid credentials' })
-        }
-
+        return res.status(200).json({ user, success: true, token: jwtToken })
     }
 
     doLoginByToken = async (req, res) => {
