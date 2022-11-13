@@ -5,6 +5,7 @@ const Moviments = mongoose.model('moviments', {
     value: String,
     date: String,
     type: Number,
+    createdBy:String,
 });
 
 // Exemplo
