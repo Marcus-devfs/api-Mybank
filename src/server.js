@@ -20,8 +20,8 @@ app.post('/auth/register', authController.doRegister)
 app.post('/auth/login/token', checkToken, authController.doLoginByToken)
 
 //Route Movimentações
-app.get('/moviments', movimentsController.index)
-app.get('/moviment/:id', movimentsController.findById)
+app.get('/moviments', movimentsController.teste)
+app.get('/moviment/:id', movimentsController.findByIdUser)
 app.post('/moviment', movimentsController.create)
 
 //Route User

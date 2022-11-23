@@ -17,10 +17,21 @@ class ListMovimentsController {
         }
     }
 
-    findById = async (req, res) => {
-        const { id } = req.params
+    // findById = async (req, res) => {
+    //     const { id } = req.params
+    //     try {
+    //         const moviment = await Moviments.findById(id)
+    //         return res.status(200).send({ msg: moviment })
+    //     } catch (error) {
+    //         console.log(error)
+    //         return res.status(400).send({ msg: 'ocorreu um erro' })
+    //     }
+    // }
+    findByIdUser = async (req, res) => {
+
+        const { createdBy } = req.body
         try {
-            const moviments = await Moviments.findById(id)
+            const moviments = await Moviments.find(createdBy)
             return res.status(200).send({ msg: moviments })
         } catch (error) {
             console.log(error)
@@ -29,15 +40,15 @@ class ListMovimentsController {
     }
 
     create = async (req, res) => {
+        
+        const { label, value, createAt, type, createdBy } = req.body
+        const moviments = new Moviments({
+            label, value, createAt, type, createdBy,
+        })
+        
         try {
-            const { moviments } = req.body
-            const { userId } = req.currentUser
-            const newMoviments = await Moviments.create({ createdBy: userId, ...moviments })
-            console.log(newMoviments)
-
-
-            // await newMoviments.save()
-            return res.status(201).send({ success: true, msg: 'Movimentação adicionada!', moviments: newMoviments })
+            await newMoviments.save()
+             return res.status(201).send({ msg: 'Movimentação adicionada!', moviments: newMoviments })
         } catch (error) {
             console.log(error)
             return res.status(400).send({ msg: 'ocorreu um erro' })
