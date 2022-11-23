@@ -4,6 +4,7 @@ const {checkToken} = require('./validators/auth')
 const express = require('express')
 const mongoose = require('mongoose')
 const movimentsController = require('./controllers/movimentsController')
+const userController = require('./controllers/userController')
 
 const app = express()
 
@@ -12,6 +13,8 @@ const app = express()
 
 //Route auth
 app.use(express.json())
+app.get('/', authController.index)
+app.post('/auth/login',authController.doLogin)
 app.post('/auth/login',authController.doLogin)
 app.post('/auth/register', authController.doRegister)
 app.post('/auth/login/token', checkToken, authController.doLoginByToken)
@@ -20,6 +23,13 @@ app.post('/auth/login/token', checkToken, authController.doLoginByToken)
 app.get('/moviments', movimentsController.teste)
 app.get('/moviment/:id', movimentsController.findByIdUser)
 app.post('/moviment', movimentsController.create)
+
+//Route User
+app.get('/user', checkToken, userController.read)
+app.get('/user/:userId', checkToken, userController.readById)
+app.post('/user', checkToken, userController.create)
+app.patch('/user/:userId', checkToken, userController.update)
+app.delete('/user/:userId', checkToken, userController.delete)
 
 
 const dbUser = process.env.DB_USER

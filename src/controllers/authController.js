@@ -47,6 +47,16 @@ class authController {
 
     // }
 
+    index = async (req, res) => {
+        try {
+            const user = await User.find()
+            return res.status(200).send({ msg: user })
+        } catch (error) {
+            console.log(error.date)
+            return res.status(400).send({ msg: 'ocorreu um erro' })
+        }
+    }
+
     doLogin = async (req, res) => {
 
         const { email, password } = req.body

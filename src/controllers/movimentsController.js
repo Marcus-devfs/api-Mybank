@@ -7,10 +7,10 @@ const User = require('../models/User')
 
 class ListMovimentsController {
 
-    teste = async (req, res) => {
+    index = async (req, res) => {
         try {
-            const moviment = await Moviments.find()
-            return res.status(200).send({ msg: moviment })
+            const moviments = await Moviments.find()
+            return res.status(200).send({ msg: moviments })
         } catch (error) {
             console.log(error.date)
             return res.status(400).send({ msg: 'ocorreu um erro' })
@@ -40,15 +40,15 @@ class ListMovimentsController {
     }
 
     create = async (req, res) => {
-
+        
         const { label, value, createAt, type, createdBy } = req.body
         const moviments = new Moviments({
             label, value, createAt, type, createdBy,
         })
-
+        
         try {
-            await moviments.save()
-            return res.status(201).send({ msg: 'Movimentação adicionada!' })
+            await newMoviments.save()
+             return res.status(201).send({ msg: 'Movimentação adicionada!', moviments: newMoviments })
         } catch (error) {
             console.log(error)
             return res.status(400).send({ msg: 'ocorreu um erro' })
