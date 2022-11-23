@@ -15,14 +15,13 @@ const app = express()
 app.use(express.json())
 app.get('/', authController.index)
 app.post('/auth/login',authController.doLogin)
-app.post('/auth/login',authController.doLogin)
 app.post('/auth/register', authController.doRegister)
 app.post('/auth/login/token', checkToken, authController.doLoginByToken)
 
 //Route Movimentações
-app.get('/moviments', movimentsController.teste)
+app.get('/moviments', movimentsController.index)
 app.get('/moviment/:id', movimentsController.findByIdUser)
-app.post('/moviment', movimentsController.create)
+app.post('/moviment/create', movimentsController.create)
 
 //Route User
 app.get('/user', checkToken, userController.read)
