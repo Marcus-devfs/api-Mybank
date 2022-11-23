@@ -17,11 +17,25 @@ class ListMovimentsController {
         }
     }
 
+    // findById = async (req, res) => {
+    //     const { id } = req.params
+    //     try {
+    //         const moviment = await Moviments.findById(id)
+    //         return res.status(200).send({ msg: moviment })
+    //     } catch (error) {
+    //         console.log(error)
+    //         return res.status(400).send({ msg: 'ocorreu um erro' })
+    //     }
+    // }
     findById = async (req, res) => {
-        const { id } = req.params
+
+        const { createdBy } = req.body
+        
         try {
-            const moviment = await Moviments.findById(id)
-            return res.status(200).send({ msg: moviment })
+            
+            const moviments = await Moviments.find(createdBy)
+            console.log(moviments)
+            return res.status(200).send({ msg: moviments })
         } catch (error) {
             console.log(error)
             return res.status(400).send({ msg: 'ocorreu um erro' })
@@ -30,9 +44,9 @@ class ListMovimentsController {
 
     create = async (req, res) => {
 
-        const { label, value, date, type, createdBy } = req.body
+        const { label, value, createAt, type, createdBy } = req.body
         const moviments = new Moviments({
-            label, value, date, type, createdBy,
+            label, value, createAt, type, createdBy,
         })
 
         try {

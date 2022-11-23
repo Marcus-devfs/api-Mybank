@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const Moviments = mongoose.model('moviments', {
     label: String,
     value: String,
-    date: String,
+    createAt: String,
     type: Number,
     createdBy:String,
 });
