@@ -41,14 +41,14 @@ class ListMovimentsController {
 
     create = async (req, res) => {
         
-        const { label, value, createAt, type, createdBy } = req.body
+        const { label, value, createdAt, type, createdBy } = req.body
         const moviments = new Moviments({
-            label, value, createAt, type, createdBy,
+            label, value, createdAt, type, createdBy,
         })
         
         try {
-            await newMoviments.save()
-             return res.status(201).send({ msg: 'Movimentação adicionada!', moviments: newMoviments })
+            await moviments.save()
+             return res.status(201).send({ msg: 'Movimentação adicionada!', moviments })
         } catch (error) {
             console.log(error)
             return res.status(400).send({ msg: 'ocorreu um erro' })
