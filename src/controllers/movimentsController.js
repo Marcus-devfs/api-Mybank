@@ -29,10 +29,10 @@ class ListMovimentsController {
     // }
     findByIdUser = async (req, res) => {
 
-        const { createdBy } = req.body
+        const { id } = req.params
         try {
-            const moviments = await Moviments.find(createdBy)
-            return res.status(200).send({ msg: moviments })
+            const moviments = await Moviments.find({user:id})
+            return res.status(200).send({ moviments })
         } catch (error) {
             console.log(error)
             return res.status(400).send({ msg: 'ocorreu um erro' })
@@ -41,9 +41,9 @@ class ListMovimentsController {
 
     create = async (req, res) => {
         
-        const { label, value, createdAt, type, createdBy } = req.body
+        const { label, value, createdAt, type, createdBy, user } = req.body
         const moviments = new Moviments({
-            label, value, createdAt, type, createdBy,
+            label, value, createdAt, type, createdBy, user
         })
         
         try {
