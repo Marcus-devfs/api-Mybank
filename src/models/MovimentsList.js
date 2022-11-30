@@ -5,7 +5,7 @@ const Moviments = mongoose.model('moviments', new mongoose.Schema({
     label: String,
     value: String,
     createdAt: String,
-    type: Number,
+    type: String,
     createdBy: String,
     user:{
         type:mongoose.Schema.Types.ObjectId,

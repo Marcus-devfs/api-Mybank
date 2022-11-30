@@ -22,6 +22,7 @@ app.post('/auth/login/token', checkToken, authController.doLoginByToken)
 app.get('/moviments', movimentsController.index)
 app.get('/moviment/:id', movimentsController.findByIdUser)
 app.post('/moviment/create', movimentsController.create)
+app.delete('/moviment/:id', movimentsController.delete)
 
 //Route User
 app.get('/user', checkToken, userController.read)
