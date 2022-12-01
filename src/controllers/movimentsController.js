@@ -31,7 +31,7 @@ class ListMovimentsController {
 
         const { id } = req.params
         try {
-            const moviments = await Moviments.find({user:id})
+            const moviments = await Moviments.find({ user: id })
             return res.status(200).send({ moviments })
         } catch (error) {
             console.log(error)
@@ -40,15 +40,26 @@ class ListMovimentsController {
     }
 
     create = async (req, res) => {
-        
+
         const { label, value, createdAt, type, createdBy, user } = req.body
         const moviments = new Moviments({
             label, value, createdAt, type, createdBy, user
         })
-        
+
         try {
             await moviments.save()
-             return res.status(201).send({ msg: 'Movimentação adicionada!', moviments })
+            return res.status(201).send({ msg: 'Movimentação adicionada!', moviments })
+        } catch (error) {
+            console.log(error)
+            return res.status(400).send({ msg: 'ocorreu um erro' })
+        }
+    }
+
+    delete = async (req, res) => {
+        try {
+            const { id } = req.params
+            Moviments.findOneAndDelete(id).exec()
+            return res.status(201).send({ msg: 'Movimentação deletada!'})
         } catch (error) {
             console.log(error)
             return res.status(400).send({ msg: 'ocorreu um erro' })
