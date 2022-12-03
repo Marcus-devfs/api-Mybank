@@ -35,12 +35,12 @@ class UserController {
 
     readById = async (req, res) => {
         try {
-            const { userId } = req.params
-            const user = await User.findById(userId).exec()
+            const { _id } = req. params
+            const user = await User.find({user: _id})
 
-            res.send(200, { success: true, user })
+            res.status(200).send({ success: true, user })
         } catch (error) {
-            res.send(400, { success: false, error });
+            res.status(200).send({ success: false, error });
         }
     }
 

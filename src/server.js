@@ -16,7 +16,7 @@ app.use(express.json())
 app.get('/', authController.index)
 app.post('/auth/login',authController.doLogin)
 app.post('/auth/register', authController.doRegister)
-app.post('/auth/login/token', checkToken, authController.doLoginByToken)
+app.post('/login/token', checkToken, authController.doLoginByToken)
 
 //Route Movimentações
 app.get('/moviments', movimentsController.index)
@@ -26,7 +26,7 @@ app.delete('/moviment/:id', movimentsController.delete)
 
 //Route User
 app.get('/user', checkToken, userController.read)
-app.get('/user/:userId', checkToken, userController.readById)
+app.get('/user/:userId', userController.readById)
 app.post('/user', checkToken, userController.create)
 app.patch('/user/:userId', checkToken, userController.update)
 app.delete('/user/:userId', checkToken, userController.delete)

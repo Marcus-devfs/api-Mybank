@@ -90,14 +90,14 @@ class authController {
         const { userId } = req.currentUser
         const user = await User.findOne({ _id: userId })
 
-        const secret = process.env.SECRET
-        const jwtToken = jwt.sign({
-            userId,
-        },
-            secret,
+        const jwtToken = jwt.sign(
+            {
+                userId,
+            },
+            process.env.JWT_KEY
         )
 
-        return res.send(200, { user, token: jwtToken })
+        return res.status(200).json({ user, success: true, token: jwtToken })
     }
 
     doRegister = async (req, res) => {
