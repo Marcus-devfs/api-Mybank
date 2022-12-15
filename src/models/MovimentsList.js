@@ -7,9 +7,15 @@ const Moviments = mongoose.model('moviments', new mongoose.Schema({
         type: Number,
         required: true,
     },
-    createdAt: String,
-    type: String,
-    createdBy: String,
+    createdAt: {
+        type: Date,
+    },
+    type: {
+        type: String,
+    },
+    createdBy: {
+        type: String,
+    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
