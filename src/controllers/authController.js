@@ -89,12 +89,11 @@ class authController {
 
         const { userId } = req.currentUser
         const user = await User.findOne({ _id: userId })
-
         const jwtToken = jwt.sign(
             {
-                userId,
+                userId: userId,
             },
-            process.env.JWT_KEY
+            process.env.SECRET
         )
 
         return res.status(200).json({ user, success: true, token: jwtToken })
