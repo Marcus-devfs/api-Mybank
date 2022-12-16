@@ -3,12 +3,21 @@ const mongoose = require('mongoose')
 
 const Moviments = mongoose.model('moviments', new mongoose.Schema({
     label: String,
-    value: String,
-    createdAt: String,
-    type: String,
-    createdBy: String,
-    user:{
-        type:mongoose.Schema.Types.ObjectId,
+    value: {
+        type: Number,
+        required: true,
+    },
+    createdAt: {
+        type: Date,
+    },
+    type: {
+        type: String,
+    },
+    createdBy: {
+        type: String,
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }
 }));
