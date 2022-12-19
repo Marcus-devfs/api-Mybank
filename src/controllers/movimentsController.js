@@ -42,8 +42,18 @@ class ListMovimentsController {
     create = async (req, res) => {
 
         const { label, value, createdAt, type, createdBy, user } = req.body
+
+        let matches = /(\d{2})[-.\/](\d{2})[-.\/](\d{4})/.exec(createdAt);
+        if (matches == null) {
+            return false;
+        }
+        let dia = matches[1];
+        let mes = matches[2];
+        let ano = matches[3];
+        let data = `${ano}/${mes}/${dia}`;
+
         const moviments = new Moviments({
-            label, value, createdAt, type, createdBy, user
+            label, value, createdAt: data, type, createdBy, user
         })
 
         try {
@@ -59,7 +69,7 @@ class ListMovimentsController {
         try {
             const { id } = req.params
             Moviments.findOneAndDelete(id).exec()
-            return res.status(201).send({ msg: 'Movimentação deletada!'})
+            return res.status(201).send({ msg: 'Movimentação deletada!' })
         } catch (error) {
             console.log(error)
             return res.status(400).send({ msg: 'ocorreu um erro' })
