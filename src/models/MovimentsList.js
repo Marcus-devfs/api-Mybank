@@ -9,6 +9,7 @@ const Moviments = mongoose.model('moviments', new mongoose.Schema({
     },
     createdAt: {
         type: Date,
+        default: new Date(),
     },
     type: {
         type: String,
