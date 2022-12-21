@@ -61,17 +61,17 @@ class authController {
 
         const { email, password } = req.body
 
-        if (!password) return res.status(400).json(400, { success: false, msg: 'Invalid password data' })
-        if (!email) return res.status(400).json(400, { success: false, msg: 'Invalid e-mail data' })
+        if (!password) return res.status(400).json({ success: false, msg: 'Invalid password data' })
+        if (!email) return res.status(400).json({ success: false, msg: 'Invalid e-mail data' })
 
         const user = await User.findOne({ email }).select('+password')
 
-        if (!user) return res.status(401).json(401, { success: false, msg: 'Invalid credentials' })
-        if (!user.password) return res.status(400).json(400, { success: false, msg: 'User access is not allowed' })
+        if (!user) return res.status(401).json({ success: false, msg: 'Invalid credentials' })
+        if (!user.password) return res.status(400).json({ success: false, msg: 'User access is not allowed' })
 
         const result = await bcrypt.compare(password, user.password)
 
-        if (!result) return res.status401().json(401, { success: false, msg: 'Invalid credentials' })
+        if (!result) return res.status(401).json({ success: false, msg: 'Invalid credentials' })
 
         const jwtToken = jwt.sign(
             {
