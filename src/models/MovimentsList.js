@@ -20,7 +20,8 @@ const Moviments = mongoose.model('moviments', new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }
+    },
+    category: String,
 }));
 
 // Exemplo

@@ -36,7 +36,9 @@ const dbUser = process.env.DB_USER
 const dbPassword = process.env.DB_PASS
 
 //conection BANCO
-const DB_URL = `mongodb+srv://${dbUser}:${dbPassword}@cluster0.yjikcrt.mongodb.net/?retryWrites=true&w=majority`;
+
+const DB_URL = `mongodb://MarcusSilva:${dbPassword}@ac-xy9xrsz-shard-00-00.yjikcrt.mongodb.net:27017,ac-xy9xrsz-shard-00-01.yjikcrt.mongodb.net:27017,ac-xy9xrsz-shard-00-02.yjikcrt.mongodb.net:27017/?ssl=true&replicaSet=atlas-afqtnv-shard-0&authSource=admin&retryWrites=true&w=majority`
+// const DB_URL = `mongodb+srv://${dbUser}:${dbPassword}@cluster0.yjikcrt.mongodb.net/?retryWrites=true&w=majority`;
 
 mongoose.connect(DB_URL).
     then(() => {

@@ -41,7 +41,7 @@ class ListMovimentsController {
 
     create = async (req, res) => {
 
-        const { label, value, createdAt, type, createdBy, user } = req.body
+        const { label, value, createdAt, type, createdBy, user, category } = req.body
 
         let matches = /(\d{2})[-.\/](\d{2})[-.\/](\d{4})/.exec(createdAt);
         if (matches == null) {
@@ -53,7 +53,7 @@ class ListMovimentsController {
         let data = `${ano}/${mes}/${dia}`;
 
         const moviments = new Moviments({
-            label, value, createdAt: data, type, createdBy, user
+            label, value, createdAt: data, type, createdBy, user, category
         })
 
         try {
