@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const express = require('express')
 const Moviments = require('../models/MovimentsList')
 const User = require('../models/User')
+const CategoryList = require('../models/Category')
 
 class ListMovimentsController {
 
@@ -70,6 +71,46 @@ class ListMovimentsController {
             const { id } = req.params
             Moviments.findOneAndDelete(id).exec()
             return res.status(201).send({ msg: 'Movimentação deletada!' })
+        } catch (error) {
+            console.log(error)
+            return res.status(400).send({ msg: 'ocorreu um erro' })
+        }
+    }
+
+    categoryFind = async (req, res) => {
+
+        const { id } = req.params
+        try {
+            const categoryList = await CategoryList.find({ user: id })
+            return res.status(200).send({ categoryList })
+        } catch (error) {
+            console.log(error)
+            return res.status(400).send({ msg: 'ocorreu um erro' })
+        }
+    }
+
+    createCategory = async (req, res) => {
+
+        const { categoryName, user } = req.body
+
+        const categoryList = new CategoryList({
+            categoryName, user
+        })
+
+        try {
+            await categoryList.save()
+            return res.status(201).send({ msg: 'Movimentação adicionada!', categoryList })
+        } catch (error) {
+            console.log(error)
+            return res.status(400).send({ msg: 'ocorreu um erro' })
+        }
+    }
+
+    deleteCategory = async (req, res) => {
+        try {
+            const { id } = req.params
+            CategoryList.findOneAndDelete(id).exec()
+            return res.status(201).send({ msg: 'Categoria deletada!' })
         } catch (error) {
             console.log(error)
             return res.status(400).send({ msg: 'ocorreu um erro' })

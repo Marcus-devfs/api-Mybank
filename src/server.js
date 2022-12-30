@@ -24,6 +24,12 @@ app.get('/moviment/:id', movimentsController.findByIdUser)
 app.post('/moviment/create', movimentsController.create)
 app.delete('/moviment/:id', movimentsController.delete)
 
+//Route Category
+app.get('/categoryList/:id', movimentsController.categoryFind)
+app.post('/categoryList/create', movimentsController.createCategory)
+app.delete('/categoryList/:id', movimentsController.deleteCategory)
+
+
 //Route User
 app.get('/user', checkToken, userController.read)
 app.get('/user/:userId', userController.readById)
