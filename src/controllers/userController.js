@@ -8,7 +8,7 @@ class UserController {
             const { user } = req.body
             let { password = null } = user
 
-            if(password) password = await bcrypt.hash(password, 10)
+            if (password) password = await bcrypt.hash(password, 10)
 
             let newUser = await User.create({
                 ...user,
@@ -17,7 +17,7 @@ class UserController {
 
             newUser = await User.findById(newUser._doc._id)
 
-            res.send(200, { success: true, user:newUser, msg: 'User created' })
+            res.send(200, { success: true, user: newUser, msg: 'User created' })
         } catch (error) {
             res.send(400, { success: false, error });
         }
@@ -35,8 +35,8 @@ class UserController {
 
     readById = async (req, res) => {
         try {
-            const { _id } = req. params
-            const user = await User.find({user: _id})
+            const { _id } = req.params
+            const user = await User.find({ user: _id })
 
             res.status(200).send({ success: true, user })
         } catch (error) {
@@ -48,7 +48,7 @@ class UserController {
         try {
             const { userId } = req.params
             const { user } = req.body
-            const updatedUser = await User.findByIdAndUpdate(userId, user, {new: true}).exec()
+            const updatedUser = await User.findByIdAndUpdate(userId, user, { new: true }).exec()
 
             res.send(200, { success: true, user: updatedUser })
         } catch (error) {
@@ -67,5 +67,7 @@ class UserController {
         }
     }
 }
+
+
 
 module.exports = new UserController()

@@ -116,6 +116,99 @@ class ListMovimentsController {
             return res.status(400).send({ msg: 'ocorreu um erro' })
         }
     }
+
+    // listFilterMoviments = async (req, res) => {
+    //     const { data_filter = {}, limit = 20, page = 0 } = req.query
+    //     let { date_start, date_finished } = data_filter
+    //     let filter = {
+    //         date_start: date_start,
+    //         date_finished: date_finished
+    //     };
+    //     typeof date_start == 'undefined' && delete filter.date_start
+    //     typeof date_finished == 'undefined' && delete filter.date_finished
+    //     if (date_start != null) {
+    //         var today = new Date();
+    //         var d = new Date(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1, 0, 0, 0, 0).setHours(-3, 0, 0));
+    //         filter.createdAt = {}
+    //         let data_in = date_start.split('-')
+    //         var date_start_filter = new Date(new Date(data_in[0], parseInt(data_in[1]) - 1, parseInt(data_in[2]), 0, 0, 0, 0).setHours(-3, 0, 0));
+
+    //         if (date_finished != null) {
+    //             let data_fim = date_finished.split('-')
+    //             var d_fim = new Date(new Date(data_fim[0], parseInt(data_in[1]) - 1, parseInt(data_fim[2]), 0, 0, 0, 0).setHours(-3, 0, 0));
+    //             filter.createdAt = {
+    //                 $gte: date_start_filter,
+    //                 $lte: d_fim
+    //             }
+    //         } else {
+    //             filter.createdAt = {
+    //                 $gte: date_start_filter
+    //             }
+    //         }
+    //     }
+
+    //     Moviments.find(filter)
+    //         .skip(Number(page) * Number(limit))
+    //         .limit(Number(limit))
+    //         .exec()
+    //         .then(docs => {
+    //             if (docs.length >= 0) {
+    //                 return res.status(200).json({ msg: docs });
+    //             } else {
+    //                 return res.status(404).json({
+    //                     message: 'No entries found'
+    //                 });
+    //             }
+    //         })
+    //         .catch(err => {
+    //             console.log(err);
+    //             return res.status(500).json({
+    //                 error: err
+    //             });
+    //         });
+    // };
+
+    listFilterMoviments = async (req, res) => {
+        const { date_start, date_finished } = req.body
+
+        let filter = {
+            date_inicio: date_start,
+            date_fim: date_finished
+        }
+        typeof date_start == 'undefined' && delete filter.date_start
+        typeof date_finished == 'undefined' && delete filter.date_finished
+
+        if (filter.date_inicio != undefined) {
+            filter.createdAt = {}
+            let data_in = date_start.split('/')
+            var date_start_filter = new Date(new Date(data_in[2], parseInt(data_in[1]) - 1, parseInt(data_in[0]), 0, 0, 0, 0).setHours(-3, 0, 0));
+          
+            if (filter.date_fim != null) {
+                let data_fim = date_finished.split('/')
+                var d_fim = new Date(new Date(data_fim[2], parseInt(data_in[1]) - 1, parseInt(data_fim[0]), 0, 0, 0, 0).setHours(-3, 0, 0));
+
+                filter.createdAt = {
+                    $gte: date_start_filter,
+                    $lte: d_fim
+                }
+            } else {
+                filter.createdAt = {
+                    $gte: dataInicio
+                }
+            }
+        }
+
+        try {
+            const movimentsFilterDate = await Moviments.find(filter).exec()
+            console.log('filter:', filter)
+            return res.status(200).send({movimentsFilterDate})
+        } catch (error) {
+            console.log(error)
+            return res.status(400).send({ msg: 'ocorreu um erro' })
+        }
+
+    };
+
 }
 
 module.exports = new ListMovimentsController()
