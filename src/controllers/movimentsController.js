@@ -108,15 +108,20 @@ class ListMovimentsController {
     }
 
     listFilterMoviments = async (req, res) => {
-        const { date_start, date_finished } = req.body
+        const { date_start, date_finished, categorySelected, user_find } = req.body
 
         let filter = {
-            date_inicio: date_start,
-            date_fim: date_finished
+            date_inicio: date_start != '' ? date_start : null,
+            date_fim: date_finished != ''? date_finished : null,
+            categorySelection: categorySelected != '' ? categorySelected : null,
+            id_user: user_find
         }
-        typeof date_start == 'undefined' && delete filter.date_start
-        typeof date_finished == 'undefined' && delete filter.date_finished
+    
+        typeof date_start == 'undefined' || date_start == '' || date_start == null && delete filter.date_start
+        typeof date_finished == 'undefined' || date_finished == '' || date_finished == null && delete filter.date_finished
+        typeof categorySelected == 'undefined' || categorySelected == '' || categorySelected == null && delete filter.categorySelection
 
+        //filtro data
         if (filter.date_inicio != undefined) {
             filter.createdAt = {}
             let data_in = date_start.split('/')
@@ -135,11 +140,23 @@ class ListMovimentsController {
                     $gte: dataInicio
                 }
             }
+        }else{
+            if(filter.id_user != null){
+                filter.createdBy = filter.id_user
+            } 
+        }
+
+        if(filter.id_user != null){
+            filter.createdBy = filter.id_user
+        }
+
+        if(filter.categorySelection != null){
+            filter.category = filter.categorySelection
         }
 
         try {
-            const movimentsFilterDate = await Moviments.find(filter).exec()
-            return res.status(200).send({movimentsFilterDate})
+            const movimentsFilterDate = await Moviments.find(filter)
+            return res.status(200).send({ movimentsFilterDate })
         } catch (error) {
             console.log(error)
             return res.status(400).send({ msg: 'ocorreu um erro' })
