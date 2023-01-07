@@ -23,7 +23,7 @@ app.get('/moviments', movimentsController.index)
 app.get('/moviment/:id', movimentsController.findByIdUser)
 app.post('/moviment/create', movimentsController.create)
 app.delete('/moviment/:id', movimentsController.delete)
-app.get('/movimentsList', movimentsController.listFilterMoviments)
+app.post('/movimentsList', movimentsController.listFilterMoviments)
 
 //Route Category
 app.get('/categoryList/:id', movimentsController.categoryFind)
