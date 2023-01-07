@@ -125,11 +125,11 @@ class ListMovimentsController {
         if (filter.date_inicio != undefined) {
             filter.createdAt = {}
             let data_in = date_start.split('/')
-            var date_start_filter = new Date(new Date(data_in[2], parseInt(data_in[1]) - 1, parseInt(data_in[0]), 0, 0, 0, 0).setHours(-3, 0, 0));
+            var date_start_filter = new Date(new Date(data_in[2], parseInt(data_in[1]) - 1, parseInt(data_in[0]), 0, 0, 0, 0));
 
             if (filter.date_fim != null) {
                 let data_fim = date_finished.split('/')
-                var d_fim = new Date(new Date(data_fim[2], parseInt(data_in[1]) - 1, parseInt(data_fim[0]), 0, 0, 0, 0).setHours(-3, 0, 0));
+                var d_fim = new Date(new Date(data_fim[2], parseInt(data_fim[1]) - 1, parseInt(data_fim[0]), 0, 0, 0, 0));
 
                 filter.createdAt = {
                     $gte: date_start_filter,
