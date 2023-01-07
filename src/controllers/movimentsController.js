@@ -81,10 +81,10 @@ class ListMovimentsController {
 
     createCategory = async (req, res) => {
 
-        const { categoryName, user } = req.body
+        const { categoryName, user_id } = req.body
 
         const categoryList = new CategoryList({
-            categoryName, user
+            categoryName, user: user_id
         })
 
         try {
