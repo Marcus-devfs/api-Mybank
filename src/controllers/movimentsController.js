@@ -59,7 +59,7 @@ class ListMovimentsController {
     delete = async (req, res) => {
         try {
             const { id } = req.params
-            Moviments.findOneAndDelete(id).exec()
+            Moviments.findByIdAndDelete(id).exec()
             return res.status(201).send({ msg: 'Movimentação deletada!' })
         } catch (error) {
             console.log(error)
@@ -99,7 +99,7 @@ class ListMovimentsController {
     deleteCategory = async (req, res) => {
         try {
             const { id } = req.params
-            CategoryList.findOneAndDelete(id).exec()
+            CategoryList.findByIdAndDelete(id).exec()
             return res.status(201).send({ msg: 'Categoria deletada!' })
         } catch (error) {
             console.log(error)
