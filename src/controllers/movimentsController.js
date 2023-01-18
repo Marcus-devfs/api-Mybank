@@ -43,6 +43,7 @@ class ListMovimentsController {
         let ano = matches[3];
         let data = `${ano}/${mes}/${dia}`;
 
+
         const moviments = new Moviments({
             label, value, createdAt: data, type, createdBy, user, category
         })
@@ -81,10 +82,12 @@ class ListMovimentsController {
 
     createCategory = async (req, res) => {
 
-        const { categoryName, user_id } = req.body
+        const { categoryName, user_id, color } = req.body
+
+        const randomColor = () => ('#' + (Math.random() * 0xFFFFFF << 0).toString(16) + '000000').slice(0, 7)
 
         const categoryList = new CategoryList({
-            categoryName, user: user_id
+            categoryName, user: user_id, color: randomColor()
         })
 
         try {

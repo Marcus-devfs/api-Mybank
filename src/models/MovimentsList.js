@@ -21,7 +21,13 @@ const Moviments = mongoose.model('moviments', new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    category: String,
+    category: {
+        type: String
+    },
+    color: {
+        type: String
+    },
+
 }));
 
 // Exemplo
