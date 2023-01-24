@@ -12,6 +12,10 @@ const CategoryList = mongoose.model('categoryList', new mongoose.Schema({
     color: {
         type: String
     },
+    value: {
+        type: Number,
+        required: true,
+    },
     
 }));
 

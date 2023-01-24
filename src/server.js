@@ -27,6 +27,7 @@ app.post('/movimentsList', movimentsController.listFilterMoviments)
 
 //Route Category
 app.get('/categoryList/:id', movimentsController.categoryFind)
+app.patch('/categoryList/:id', movimentsController.updateCategory)
 app.post('/categoryList/create', movimentsController.createCategory)
 app.delete('/categoryList/:id', movimentsController.deleteCategory)
 
