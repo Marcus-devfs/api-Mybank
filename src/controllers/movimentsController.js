@@ -87,7 +87,7 @@ class ListMovimentsController {
         const randomColor = () => ('#' + (Math.random() * 0xFFFFFF << 0).toString(16) + '000000').slice(0, 7)
 
         const categoryList = new CategoryList({
-            categoryName, user: user_id, color: randomColor()
+            categoryName, user: user_id, color: randomColor(), value: 0
         })
 
         try {
@@ -99,6 +99,7 @@ class ListMovimentsController {
         }
     }
 
+
     deleteCategory = async (req, res) => {
         try {
             const { id } = req.params
@@ -109,6 +110,25 @@ class ListMovimentsController {
             return res.status(400).send({ msg: 'ocorreu um erro' })
         }
     }
+
+    updateCategory = async (req, res) => {
+        try {
+            const { id } = req.params
+            const { category, valueStatusCategory } = req.body
+
+            const filter = { categoryName: category, user: id };
+            const update = { value: valueStatusCategory };
+
+            const categoryList = await CategoryList.findOneAndUpdate(filter, update)
+            console.log(categoryList)
+            res.send(200, { success: true })
+        } catch (error) {
+            console.log(error.data)
+            return res.status(400).send({ msg: 'ocorreu um erro' })
+        }
+    };
+
+
 
     listFilterMoviments = async (req, res) => {
         const { date_start = null, date_finished = null, categorySelected = null, user_find = null } = req.body
