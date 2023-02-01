@@ -5,6 +5,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const movimentsController = require('./controllers/movimentsController')
 const userController = require('./controllers/userController')
+const investmentController = require('./controllers/investmentController')
 
 const app = express()
 
@@ -39,6 +40,11 @@ app.post('/user', checkToken, userController.create)
 app.patch('/user/:userId', checkToken, userController.update)
 app.delete('/user/:userId', checkToken, userController.delete)
 
+//Route Investment
+app.get('/investmentList', investmentController.index)
+app.post('/investmentList/create', investmentController.createInvestment)
+app.delete('/investmentList/delete/:id', investmentController.deleteInvestment)
+app.get('/investmentList/:id', investmentController.readInvestmentId)
 
 
 const dbUser = process.env.DB_USER
