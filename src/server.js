@@ -18,6 +18,8 @@ app.get('/', authController.index)
 app.post('/auth/login',authController.doLogin)
 app.post('/auth/register', authController.doRegister)
 app.post('/login/token', checkToken, authController.doLoginByToken)
+app.post('/login/recover', authController.recoverPassword)
+app.post('/login/updatePass', checkToken, authController.updatePassword)
 
 //Route Movimentações
 app.get('/moviments', movimentsController.index)
