@@ -47,6 +47,7 @@ app.get('/investmentList', investmentController.index)
 app.post('/investmentList/create', investmentController.createInvestment)
 app.delete('/investmentList/delete/:id', investmentController.deleteInvestment)
 app.get('/investmentList/:id', investmentController.readInvestmentId)
+app.post('/investmentList', investmentController.listFilterInvestiments)
 
 
 const dbUser = process.env.DB_USER
