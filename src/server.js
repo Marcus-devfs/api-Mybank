@@ -20,6 +20,7 @@ app.post('/auth/register', authController.doRegister)
 app.post('/login/token', checkToken, authController.doLoginByToken)
 app.post('/login/recover', authController.recoverPassword)
 app.post('/login/updatePass', checkToken, authController.updatePassword)
+app.post('/login/updateData', checkToken, authController.updateData)
 
 //Route Movimentações
 app.get('/moviments', movimentsController.index)

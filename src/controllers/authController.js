@@ -65,21 +65,24 @@ class authController {
 
     doRegister = async (req, res) => {
 
-        const { name, email, password, confirmpassword } = req.body
+        const { name, email, password, confirmpassword, dateBirth, telephone } = req.body
 
-        //validation
-        if (!name) { return res.status(422).json({ msg: 'O nome é obrigatório!' }) }
-        if (!email) { return res.status(422).json({ msg: 'O email é obrigatório!' }) }
-        if (!password) { return res.status(422).json({ msg: 'A password é obrigatória!' }) }
-        if (password !== confirmpassword) { return res.status(422).json({ msg: 'As senhas não conferem! Verifique e tente novamente' }) }
+        let matches = /(\d{2})[-.\/](\d{2})[-.\/](\d{4})/.exec(dateBirth);
+        if (matches == null) {
+            return false;
+        }
+        let dia = matches[1];
+        let mes = matches[2];
+        let ano = matches[3];
+        let data = `${ano}/${mes}/${dia}`;
 
         //check exists user
         const UserExists = await User.findOne({ email: email })
 
-        if (UserExists) { return res.status(422).json({ msg: 'Por favor, ultilize outro e-mail' }) }
+        if (UserExists) { return res.status(422).send({ msg: 'Usuário existente. Por favor, ultilize outro e-mail ' }) }
 
         //create password
-        const salt = await bcrypt.genSalt(12)
+        const salt = await bcrypt.genSalt(6)
         const passwordHash = await bcrypt.hash(password, salt)
 
         //create user
@@ -87,16 +90,17 @@ class authController {
             name,
             email,
             password: passwordHash,
-
+            telephone,
+            dateBirth: data,
         })
 
         try {
             await user.save()
-            return res.status(201).json({ msg: 'Usuario criado com Sucesso!' })
+            return res.status(201).json({ msg: 'Usuario criado com Sucesso!', user })
 
         } catch (error) {
             console.log(error)
-            return res.status(500).json({ msg: 'ocorreu um erro' })
+            return res.status(500).json({ msg })
         }
 
     }
@@ -125,7 +129,7 @@ class authController {
         try {
             User.findOneAndUpdate({ email }, { password }).exec()
         } catch (error) {
-            console.log('erro',error)
+            console.log('erro', error)
         }
 
         return res.status(200).send({ success: true })
@@ -143,7 +147,7 @@ class authController {
     }
 
     updatePassword = async (req, res) => {
-        
+
         const { updatePassword } = req.body
         const { email, senha } = updatePassword
 
@@ -156,7 +160,34 @@ class authController {
             console.log(error)
         }
 
-        return res.status(200).send({newPassword})
+        return res.status(200).send({ newPassword })
+    }
+
+    updateData = async (req, res) => {
+
+        const { updateData } = req.body
+        const { email, telephoneNumber, dateBirthDay } = updateData
+
+        let matches = /(\d{2})[-.\/](\d{2})[-.\/](\d{4})/.exec(dateBirthDay);
+        if (matches == null) {
+            return false;
+        }
+        let dia = matches[1];
+        let mes = matches[2];
+        let ano = matches[3];
+        let data = `${ano}/${mes}/${dia}`;
+
+        const telephone = telephoneNumber
+        const dateBirth = data
+
+        try {
+            User.findOneAndUpdate({ email }, { telephone }).exec()
+            User.findOneAndUpdate({ email }, { dateBirth }).exec()
+        } catch (error) {
+            console.log(error)
+        }
+
+        return res.status(200).send({ msg: 'Dados alterados com sucesso. Reinicie o aplicativo para atualizar as alterações' })
     }
 
 }
