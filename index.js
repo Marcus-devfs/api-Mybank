@@ -7,8 +7,8 @@ const app = express()
 app.use(express.json())
 app.use(routes)
 
-const dbUser = process.env.DB_USER
-const dbPassword = process.env.DB_PASS
+const dbUser = process.env.NEXT_PUBLIC_DB_USER
+const dbPassword = process.env.NEXT_PUBLIC_DB_PASS
 const DB_URL = `mongodb+srv://${dbUser}:${dbPassword}@cluster0.yjikcrt.mongodb.net/?retryWrites=true&w=majority`;
 
 mongoose.connect(DB_URL).
