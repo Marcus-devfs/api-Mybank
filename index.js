@@ -7,6 +7,10 @@ const app = express()
 app.use(express.json())
 app.use('/', routes)
 
+app.get('/teste', (req, res) => {
+    res.send({ msg: 'entrou' })
+})
+
 const dbUser = process.env.NEXT_PUBLIC_DB_USER
 const dbPassword = process.env.NEXT_PUBLIC_DB_PASS
 const DB_URL = `mongodb+srv://${dbUser}:${dbPassword}@cluster0.yjikcrt.mongodb.net/?retryWrites=true&w=majority`;
