@@ -5,7 +5,7 @@ const routes = require('./src/routes/index')
 const app = express()
 
 app.use(express.json())
-app.use(routes)
+app.use('/', routes)
 
 const dbUser = process.env.NEXT_PUBLIC_DB_USER
 const dbPassword = process.env.NEXT_PUBLIC_DB_PASS
