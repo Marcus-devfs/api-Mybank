@@ -13,7 +13,7 @@ const DB_URL = `mongodb+srv://${dbUser}:${dbPassword}@cluster0.yjikcrt.mongodb.n
 
 mongoose.connect(DB_URL).
     then(() => {
-        app.listen(3000)
+        app.listen(process.env.PORT || '3000')
         console.log('Conectado ao banco...')
     })
     .catch((err) => console.log(err))
