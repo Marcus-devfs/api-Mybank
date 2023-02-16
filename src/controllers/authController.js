@@ -56,7 +56,7 @@ class authController {
             {
                 userId: userId,
             },
-            process.env.SECRET
+            process.env.NEXT_PUBLIC_SECRET
         )
 
         return res.status(200).json({ user, success: true, token: jwtToken })
